@@ -8,10 +8,15 @@ It fetches the latest articles on any topic, generates concise summaries, and hi
 ## 🚀 Features
 
 ✅ **AI-Powered Summaries** – Uses Google Gemini via LangChain to summarize news in 3 crisp bullet points.
+
 ✅ **Per-User Trending Topics** – Tracks trending keywords based only on each user's recent article summaries.
+
 ✅ **Real-Time News Fetching** – Fetches live articles using the NewsAPI.
+
 ✅ **Streamlit Frontend** – Clean and responsive UI for easy interaction.
+
 ✅ **FastAPI Backend** – Async backend for efficient concurrent requests.
+
 ✅ **Dockerized Deployment** – Fully containerized and deployed on [Render](https://render.com) free tier.
 
 ---
