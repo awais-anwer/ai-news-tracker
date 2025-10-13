@@ -40,7 +40,7 @@ It fetches the latest articles on any topic, generates concise summaries, and hi
 
 ## 🌐 Live Demo
 
-**Live:** [https://front-ai-news-tracker.onrender.com](#)
+**Live:** [https://front-ai-news-tracker.onrender.com](https://front-ai-news-tracker.onrender.com)
 
 ---
 
