@@ -6,9 +6,6 @@ WORKDIR /app
 # Copy files
 COPY . .
 
-# Copy environment variables (optional for debugging)
-COPY .env ./
-
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
