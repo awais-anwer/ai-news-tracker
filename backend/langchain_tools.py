@@ -1,5 +1,5 @@
-import os, requests, re
-from collections import deque
+import os, requests, re, uuid, threading
+from collections import defaultdict, deque
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -7,8 +7,11 @@ from langchain.prompts import PromptTemplate
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Store recent summaries
-recent_summaries = deque(maxlen=5)
+# ------------------- PER-USER MEMORY STORE ---------------------
+# Each user gets their own summary history (max 10 per user)
+user_summaries = defaultdict(lambda: deque(maxlen=10))
+# Lock for thread safety
+summaries_lock = threading.Lock()
 
 # -------------------------- NEWS FETCHER ---------------------------
 def fetch_news(topic):
@@ -21,7 +24,7 @@ def fetch_news(topic):
     ]
 
 # ------------------------- SUMMARIZER -------------------------------
-def summarize_text(text):
+def summarize_text(text, session_id):
     model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GOOGLE_API_KEY)
     prompt = PromptTemplate.from_template(
         "Summarize the following news article in 3 concise bullet points:\n\n{text}"
@@ -29,19 +32,20 @@ def summarize_text(text):
     chain = LLMChain(prompt=prompt, llm=model)
     summary = chain.run({"text": text})
     
-    # store this summary for trending analysis
-    recent_summaries.append(summary)
+    # Save summary for this user's session
+    with summaries_lock:
+        user_summaries[session_id].append(summary)
+
     return summary
 
-
 # ------------------- TRENDING TOPIC EXTRACTOR -------------------------
-def extract_keywords():
-    """Use Gemini to extract trending topics from the most recent summaries."""
-    if not recent_summaries:
-        return ["No recent summaries available"]
-
-    # Combine all summaries into a single text
-    combined = "\n".join(list(recent_summaries))
+def extract_keywords(session_id):
+    """Extract trending topics only from this user's summaries."""
+    with summaries_lock:
+        summaries = user_summaries.get(session_id, None)
+        if not summaries or len(summaries) == 0:
+            return ["No recent summaries available"]
+        combined = "\n".join(list(summaries))
 
     model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GOOGLE_API_KEY)
 
@@ -71,3 +75,12 @@ def extract_keywords():
 
     # Limit to 7 trending topics
     return unique_keywords[:7]
+
+
+# ------------------- SESSION ID UTILITY -------------------------
+def get_or_create_session_id(request_headers):
+    """Generate or read user session ID from frontend."""
+    session_id = request_headers.get("X-Session-ID")
+    if not session_id:
+        session_id = str(uuid.uuid4())
+    return session_id
