@@ -7,15 +7,12 @@ It fetches the latest articles on any topic, generates concise summaries, and hi
 
 ## 🚀 Features
 
-✅ **AI-Powered Summaries** – Uses Google Gemini via LangChain to summarize news in 3 crisp bullet points.\n
-✅ **Per-User Trending Topics** – Tracks trending keywords based only on each user's recent article summaries.
-✅ **Real-Time News Fetching** – Fetches live articles using the NewsAPI.
-
-✅ **Streamlit Frontend** – Clean and responsive UI for easy interaction.
-
-✅ **FastAPI Backend** – Async backend for efficient concurrent requests.
-
-✅ **Dockerized Deployment** – Fully containerized and deployed on [Render](https://render.com) free tier.
+**AI-Powered Summaries** – Uses Google Gemini via LangChain to summarize news in 3 crisp bullet points.
+**Per-User Trending Topics** – Tracks trending keywords based only on each user's recent article summaries.
+**Real-Time News Fetching** – Fetches live articles using the NewsAPI.
+**Streamlit Frontend** – Clean and responsive UI for easy interaction.
+**FastAPI Backend** – Async backend for efficient concurrent requests.
+**Dockerized Deployment** – Fully containerized and deployed on [Render](https://render.com) free tier.
 
 ---
 
@@ -49,10 +46,10 @@ It fetches the latest articles on any topic, generates concise summaries, and hi
 
 ## 🧩 Example Workflow
 
-1️⃣ Enter a topic → “Artificial Intelligence”
-2️⃣ The app fetches latest AI-related news
-3️⃣ Each article is summarized in bullets
-4️⃣ Sidebar shows trending AI keywords based on your session summaries
+1.  Enter a topic → “Artificial Intelligence”
+2. The app fetches latest AI-related news
+3. Each article is summarized in bullets
+4. Sidebar shows trending AI keywords based on your session summaries
 
 ---
 
@@ -66,4 +63,4 @@ It fetches the latest articles on any topic, generates concise summaries, and hi
 
 ## 📟 License
 
-MIT License © 2025 [Awais Lakho](https://github.com/awais-anwer)
+MIT License © 2025 [Awais Anwer](https://github.com/awais-anwer)
